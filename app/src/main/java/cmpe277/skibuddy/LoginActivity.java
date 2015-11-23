@@ -21,17 +21,27 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import cmpe277.skibuddy.model.Identity;
+import cmpe277.skibuddy.model.User;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
  * profile.
  */
-public class MainActivity extends AppCompatActivity implements
+public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
-    private static final String TAG = "MainActivity";
-
+    private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001;
 
     /* Client used to interact with Google APIs. */
@@ -45,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+        ServiceFactory.init(getString(R.string.server_url));
 
         // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
@@ -57,8 +68,12 @@ public class MainActivity extends AppCompatActivity implements
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();*/
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken(getString(R.string.server_client_id))
                 .build();
         // [END configure_signin]
 
@@ -201,12 +216,37 @@ public class MainActivity extends AppCompatActivity implements
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+            authenticate(acct.getIdToken());
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
         }
+    }
+
+    private void authenticate(String idToken) {
+        Identity identity = new Identity();
+        identity.setIdToken(idToken);
+        ServerAPI serverAPI = ServiceFactory.createService(ServerAPI.class);
+        Call<User> call = serverAPI.authenticate(identity);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    // authenticate success
+                    //
+                    mStatusTextView.setText(getString(R.string.signed_in_fmt, response.body().getName()));
+                    updateUI(true);
+                } else {
+                    // error response, no access to resource?
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // something went completely south (like no internet connection)
+                Log.d("Error", t.getMessage());
+            }
+        });
     }
 
     private void showProgressDialog() {

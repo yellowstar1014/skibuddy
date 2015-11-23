@@ -29,6 +29,7 @@
     <string name="desc_google_icon">Google Logo</string>
 
     <string name="loading">Loading...</string>
-
-
+    <!--Server-ClientId-->
+    <string name="server_client_id">538923068949-7omlgmdftfnht7l4s2s2oog77kngecr5.apps.googleusercontent.com</string>
+    <string name="server_url">https://skibuddy-api.herokuapp.com</string>
 </resources>
