@@ -1,5 +1,8 @@
 package cmpe277.skibuddy.model;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by yellowstar on 11/22/15.
  */
@@ -9,6 +12,17 @@ public class User {
     private String name;
     private String avatar;
     private String email;
+    private Date expiration;
+    private List<Record> records;
+    private String idToken;
+
+    public String getIdToken() {
+        return idToken;
+    }
+
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
+    }
 
     public int getId() {
         return id;
@@ -48,5 +62,25 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getExpiration() {
+        return expiration;
+    }
+
+    public void setExpiration(Date expiration) {
+        this.expiration = expiration;
+    }
+
+    public void setExpiration(long expiration) {
+        this.expiration = new Date(expiration);
+    }
+
+    public List<Record> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<Record> records) {
+        this.records = records;
     }
 }
