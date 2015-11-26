@@ -7,9 +7,11 @@ import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +28,11 @@ import java.util.List;
 import cmpe277.skibuddy.model.Path;
 import cmpe277.skibuddy.model.Point;
 import cmpe277.skibuddy.model.Record;
+import cmpe277.skibuddy.model.User;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener {
@@ -40,6 +47,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ServiceFactory.init(getString(R.string.server_url));
         sessionManager = new UserSessionManager(getApplicationContext());
         setContentView(R.layout.activity_home);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -51,6 +59,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 mTrace = mMap.addPolyline(new PolylineOptions());
+                System.out.println("--addPolyline--");
                 record = new Record();
                 record.setStartTime(System.currentTimeMillis());
             }
@@ -67,7 +76,23 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                 record.setEndTime(System.currentTimeMillis());
                 record.setPath(path);
                 ServerAPI serverAPI = ServiceFactory.createService(ServerAPI.class);
-                serverAPI.addRecord(sessionManager.getUserId(), record);
+                Call<Record> call = serverAPI.addRecord(sessionManager.getUserId(), record);
+                call.enqueue(new Callback<Record>() {
+                    @Override
+                    public void onResponse(Response<Record> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            Toast.makeText(getApplicationContext(), "Save Path Success", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Save Path Failure", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Save Path Failure", Toast.LENGTH_SHORT).show();
+                        Log.d("Error", t.getMessage());
+                    }
+                });
             }
         });
     }
@@ -97,6 +122,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng cur = new LatLng(curLoc.getLatitude(), curLoc.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cur, 14));
                 //mMap.addMarker(new MarkerOptions().position(cur).title("Me"));
+                if (mTrace == null) return;
                 List<LatLng> pre = mTrace.getPoints();
                 if (pre.size() != 0) {
                     Location last = new Location("");

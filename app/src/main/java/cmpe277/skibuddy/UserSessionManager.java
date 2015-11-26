@@ -107,7 +107,7 @@ public class UserSessionManager {
     }
 
     public int getUserId() {
-        return pref.getInt(KEY_ID, 0);
+        return pref.getInt(KEY_ID, 1);
     }
 
     /**
