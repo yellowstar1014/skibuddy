@@ -10,6 +10,7 @@
 
     <string name="signed_in_fmt">Signed in as: %s</string>
     <string name="signing_in">Signing in…</string>
+    <string name="signed_in">Signed in</string>
     <string name="signed_out">Signed out</string>
     <string name="signed_in_err">"Error: please check logs."</string>
     <string name="error_null_person">
@@ -29,8 +30,14 @@
     <string name="desc_google_icon">Google Logo</string>
 
     <string name="loading">Loading...</string>
+
     <!--Server-ClientId-->
-    <string name="server_client_id">538923068949-7omlgmdftfnht7l4s2s2oog77kngecr5.apps.googleusercontent.com</string>
+    <!--<string name="server_client_id">538923068949-7omlgmdftfnht7l4s2s2oog77kngecr5.apps.googleusercontent.com</string>-->
+    <string name="server_client_id">260994075029-nrf5vg2dsahr5gjke5opps7vf3mdrh2t.apps.googleusercontent.com</string>
     <string name="server_url">https://skibuddy-api.herokuapp.com</string>
     <string name="title_activity_home">Home</string>
+
+    <string name="contacts_permission_rationale">contacts_permission_rationale</string>
+
+    <string name="id_token_fmt">ID Token: %s</string>
 </resources>
