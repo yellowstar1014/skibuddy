@@ -43,7 +43,7 @@ public class Record {
         this.distance = distance;
     }
 
-    public Path getPath() {
+    public Path  getPath() {
         return path;
     }
 

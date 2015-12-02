@@ -1,5 +1,7 @@
 package cmpe277.skibuddy.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,5 +38,4 @@ public class Path {
         b.append("]");
         return b.toString();
     }
-
 }

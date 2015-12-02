@@ -89,8 +89,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onFailure(Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Save Path Failure", Toast.LENGTH_SHORT).show();
-                        Log.d("Error", t.getMessage());
+                        Toast.makeText(getApplicationContext(), "Save Path Failure!", Toast.LENGTH_SHORT).show();
+                        //Log.d("Error", t.getMessage());
                     }
                 });
             }

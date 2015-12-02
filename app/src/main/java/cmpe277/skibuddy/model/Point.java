@@ -1,11 +1,13 @@
 package cmpe277.skibuddy.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by yellowstar on 11/25/15.
  */
 public class Point {
-    public double x;
-    public double y;
+    private double x;
+    private double y;
 
     public Point(double x, double y) {
         this.x = x;
@@ -29,4 +31,6 @@ public class Point {
     public String getValue() {
         return "(" + this.x + "," + this.y + ")";
     }
+
+
 }
