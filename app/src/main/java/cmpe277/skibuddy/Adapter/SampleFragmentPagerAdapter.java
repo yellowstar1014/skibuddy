@@ -16,7 +16,7 @@ import android.widget.TextView;
 import cmpe277.skibuddy.HomeFragment;
 import cmpe277.skibuddy.ProfileFragment;
 import cmpe277.skibuddy.R;
-import cmpe277.skibuddy.SessionFragment;
+import cmpe277.skibuddy.EventFragment;
 
 /**
  * @author yishafang on 12/1/15.
@@ -61,7 +61,7 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return HomeFragment.newInstance(position + 1);
         } else if (position == 1) {
-            return SessionFragment.newInstance(position + 1);
+            return EventFragment.newInstance(position + 1);
         } else  {
             return ProfileFragment.newInstance(position + 1);
         }
