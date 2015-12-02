@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -21,10 +22,6 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import cmpe277.skibuddy.model.Identity;
 import cmpe277.skibuddy.model.User;
 import retrofit.Call;
@@ -32,6 +29,9 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+import static cmpe277.skibuddy.Constants.PERSON_EMAIL;
+import static cmpe277.skibuddy.Constants.PERSON_NAME;
+import static cmpe277.skibuddy.Constants.PERSON_PHOTO_URL;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -65,16 +65,20 @@ public class LoginActivity extends AppCompatActivity implements
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
 
+        // For sample only: make sure there is a valid server client ID.
+        validateServerClientID();
+
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();*/
+        // TODO: cannot get id token. Need to fix this !!!!
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestIdToken(getString(R.string.server_client_id))
                 .build();
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .requestIdToken(getString(R.string.server_client_id))
+//                .build();
         // [END configure_signin]
 
         // [START build_client]
@@ -91,6 +95,14 @@ public class LoginActivity extends AppCompatActivity implements
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
 
+    }
+
+    private void getIdToken() {
+        // Show an account picker to let the user choose a Google account from the device.
+        // If the GoogleSignInOptions only asks for IDToken and/or profile and/or email then no
+        // consent screen will be shown here.
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -132,6 +144,39 @@ public class LoginActivity extends AppCompatActivity implements
     }
     // [END onActivityResult]
 
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+
+            // Get
+            String personName = acct.getDisplayName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            String personPhotoUrl = String.valueOf(acct.getPhotoUrl());
+
+
+            String idToken = acct.getIdToken();
+
+            // Show signed-in UI.
+            Log.d(TAG, "idToken:" + idToken);
+            mStatusTextView.setText(getString(R.string.id_token_fmt, idToken));
+            updateUI(true);
+
+            //authenticate(acct.getIdToken());
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra(PERSON_NAME, personName);
+            intent.putExtra(PERSON_EMAIL, personEmail);
+            intent.putExtra(PERSON_PHOTO_URL, personPhotoUrl);
+            startActivity(intent);
+        } else {
+            // Signed out, show unauthenticated UI.
+            updateUI(false);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sign_out) {
             return true;
         }
 
@@ -167,6 +212,7 @@ public class LoginActivity extends AppCompatActivity implements
         switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
+                //getIdToken();
                 break;
             case R.id.sign_out_button:
                 signOut();
@@ -210,18 +256,6 @@ public class LoginActivity extends AppCompatActivity implements
                 });
     }
     // [END revokeAccess]
-
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            authenticate(acct.getIdToken());
-        } else {
-            // Signed out, show unauthenticated UI.
-            updateUI(false);
-        }
-    }
 
     private void authenticate(String idToken) {
         Identity identity = new Identity();
@@ -274,6 +308,21 @@ public class LoginActivity extends AppCompatActivity implements
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Validates that there is a reasonable server client ID in strings.xml, this is only needed
+     * to make sure users of this sample follow the README.
+     */
+    private void validateServerClientID() {
+        String serverClientId = getString(R.string.server_client_id);
+        String suffix = ".apps.googleusercontent.com";
+        if (!serverClientId.trim().endsWith(suffix)) {
+            String message = "Invalid server client ID in strings.xml, must end with " + suffix;
+
+            Log.w(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
     }
 }
