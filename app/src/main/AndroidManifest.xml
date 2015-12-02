@@ -44,8 +44,8 @@
             android:value="@string/google_maps_key" />
 
 
-        <activity
-            android:name=".MainActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".CreateEventActivity" />
 
         <activity
             android:name=".HomeActivity"

@@ -40,7 +40,7 @@
             android:layout_alignEnd="@+id/linearLayout" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/activity_editText_width"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
@@ -59,7 +59,7 @@
             android:layout_alignEnd="@+id/linearLayout" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/activity_editText_width"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
@@ -78,7 +78,7 @@
             android:layout_alignEnd="@+id/linearLayout" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/activity_editText_width"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
