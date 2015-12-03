@@ -86,13 +86,13 @@ public class ProfileFragment extends Fragment {
         email.setText(personEmail);
 
         // If the person doesn't have google profile image, we give him a default avatar
-        if (personPhotoUrl.equals("null")) {
-            photo.setBackgroundResource(R.drawable.avatar);
-            photo.getLayoutParams().height = 350;
-            photo.getLayoutParams().width = 350;
-        } else {
+//        if (personPhotoUrl.equals("null")) {
+//            photo.setBackgroundResource(R.drawable.avatar);
+//            photo.getLayoutParams().height = 350;
+//            photo.getLayoutParams().width = 350;
+//        } else {
             download(personPhotoUrl, photo);
-        }
+       // }
 
         loadRecordData();
 
@@ -106,7 +106,7 @@ public class ProfileFragment extends Fragment {
 
     private void loadRecordData() {
         // TODO: hard code user id for testing only, should get it from server
-        final int userId = 7;
+        final int userId = 1;
 
         // START Hard code for testing
         Record r1 = new Record();
@@ -135,41 +135,41 @@ public class ProfileFragment extends Fragment {
         });
         // END Hard code for testing
 
-        ServerAPI serverAPI = ServiceFactory.createService(ServerAPI.class);
-        Call<List<Record>> call = serverAPI.getRecord(userId);
-        call.enqueue(new Callback<List<Record>>() {
-            @Override
-            public void onResponse(Response<List<Record>> response, Retrofit retrofit) {
-                Log.w(TAG, "Success getting records!!!");
-                if (response.isSuccess()) {
-                    final ArrayList<Record> records = new ArrayList<>();
-                    for (Record record : response.body()) {
-                        records.add(record);
-                    }
-
-                    RecordsAdapter recordsAdapter = new RecordsAdapter(getContext(), records);
-                    listView.setAdapter(recordsAdapter);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String recordId = String.valueOf(records.get(position));
-                            Intent intent = new Intent(getContext(), RecordDetailActivity.class);
-                            intent.putExtra(RECORD_ID, recordId);
-                            intent.putExtra(PERSON_ID, userId);
-                            startActivity(intent);
-                        }
-                    });
-                } else {
-                    // error response, no access to resource?
-                    Log.w(TAG, "response is not success!");
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d(TAG, "error:" + t.getMessage());
-            }
-        });
+//        ServerAPI serverAPI = ServiceFactory.createService(ServerAPI.class);
+//        Call<List<Record>> call = serverAPI.getRecord(userId);
+//        call.enqueue(new Callback<List<Record>>() {
+//            @Override
+//            public void onResponse(Response<List<Record>> response, Retrofit retrofit) {
+//                Log.w(TAG, "Success getting records!!!");
+//                if (response.isSuccess()) {
+//                    final ArrayList<Record> records = new ArrayList<>();
+//                    for (Record record : response.body()) {
+//                        records.add(record);
+//                    }
+//
+//                    RecordsAdapter recordsAdapter = new RecordsAdapter(getContext(), records);
+//                    listView.setAdapter(recordsAdapter);
+//                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            String recordId = String.valueOf(records.get(position));
+//                            Intent intent = new Intent(getContext(), RecordDetailActivity.class);
+//                            intent.putExtra(RECORD_ID, recordId);
+//                            intent.putExtra(PERSON_ID, userId);
+//                            startActivity(intent);
+//                        }
+//                    });
+//                } else {
+//                    // error response, no access to resource?
+//                    Log.w(TAG, "response is not success!");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable t) {
+//                Log.d(TAG, "error:" + t.getMessage());
+//            }
+//        });
     }
 
 

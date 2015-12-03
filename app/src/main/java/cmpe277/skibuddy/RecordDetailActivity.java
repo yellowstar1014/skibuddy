@@ -9,6 +9,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
 
 /**
  * @author yishafang on 12/2/15.
@@ -43,11 +47,15 @@ public class RecordDetailActivity extends FragmentActivity implements OnMapReady
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng cur = new LatLng(37.4219983,-122.0909983);
+        Polyline mTrace = mMap.addPolyline(new PolylineOptions());
+        List<LatLng> pre = mTrace.getPoints();
+        pre.add(new LatLng(37.4219983,-122.0909983));
+        pre.add(new LatLng(37.426,-122.093));
+        pre.add(new LatLng(37.4269983,-122.096));
+        mTrace.setPoints(pre);
+
+        mMap.addMarker(new MarkerOptions().position(cur).title("My Path"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cur, 14));
     }
-
-
-
 }
