@@ -41,4 +41,13 @@
     <string name="contacts_permission_rationale">contacts_permission_rationale</string>
 
     <string name="id_token_fmt">ID Token: %s</string>
+
+
+    <!-- Profile screen -->
+    <string name="your_records">Your Records</string>
+    <string name="start_time">Start time:</string>
+    <string name="end_time">End time:</string>
+    <string name="distance">Distance:</string>
+    <string name="title_activity_maps">Map</string>
+
 </resources>

@@ -9,5 +9,6 @@ public class Constants {
     public static final String PERSON_EMAIL = "PERSON_EMAIL";
     public static final String PERSON_ID = "PERSON_ID";
     public static final String PERSON_PHOTO_URL = "PERSON_PHOTO_URL";
+    public static final String RECORD_ID = "RECORD_ID";
 
 }

@@ -1,5 +1,7 @@
 package cmpe277.skibuddy;
 
+import java.util.List;
+
 import cmpe277.skibuddy.model.Identity;
 import cmpe277.skibuddy.model.Record;
 import cmpe277.skibuddy.model.User;
@@ -20,6 +22,6 @@ public interface ServerAPI {
     Call<Record> addRecord(@Path("uid") int uid, @Body Record record);
 
     @GET("/users/{uid}/records")
-    Call<Record[]> getRecord(@Path("uid") int uid);
+    Call<List<Record>> getRecord(@Path("uid") int uid);
 
 }

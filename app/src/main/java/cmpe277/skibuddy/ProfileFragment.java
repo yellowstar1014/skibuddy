@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +23,10 @@ import org.apache.http.client.methods.HttpGet;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
+import cmpe277.skibuddy.Adapter.RecordsAdapter;
 import cmpe277.skibuddy.model.Record;
 import retrofit.Call;
 import retrofit.Callback;
@@ -30,8 +34,10 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 import static cmpe277.skibuddy.Constants.PERSON_EMAIL;
+import static cmpe277.skibuddy.Constants.PERSON_ID;
 import static cmpe277.skibuddy.Constants.PERSON_NAME;
 import static cmpe277.skibuddy.Constants.PERSON_PHOTO_URL;
+import static cmpe277.skibuddy.Constants.RECORD_ID;
 
 /**
  * @author yishafang on 12/1/15.
@@ -100,18 +106,62 @@ public class ProfileFragment extends Fragment {
 
     private void loadRecordData() {
         // TODO: hard code user id for testing only, should get it from server
-        int userId = 1;
+        final int userId = 7;
+
+        // START Hard code for testing
+        Record r1 = new Record();
+        r1.setStartTime(1400);
+        r1.setEndTime(1500);
+        r1.setDistance(50.01);
+        Record r2 = new Record();
+        r2.setStartTime(2200);
+        r2.setEndTime(2400);
+        r2.setDistance(360.09);
+        final ArrayList<Record> records = new ArrayList<>();
+        records.add(r1);
+        records.add(r2);
+
+        RecordsAdapter recordsAdapter = new RecordsAdapter(getContext(), records);
+        listView.setAdapter(recordsAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String recordId = String.valueOf(records.get(position));
+                Intent intent = new Intent(getContext(), RecordDetailActivity.class);
+                intent.putExtra(RECORD_ID, recordId);
+                intent.putExtra(PERSON_ID, userId);
+                startActivity(intent);
+            }
+        });
+        // END Hard code for testing
 
         ServerAPI serverAPI = ServiceFactory.createService(ServerAPI.class);
-        Call<Record[]> call = serverAPI.getRecord(userId);
-        call.enqueue(new Callback<Record[]>() {
+        Call<List<Record>> call = serverAPI.getRecord(userId);
+        call.enqueue(new Callback<List<Record>>() {
             @Override
-            public void onResponse(Response<Record[]> response, Retrofit retrofit) {
+            public void onResponse(Response<List<Record>> response, Retrofit retrofit) {
                 Log.w(TAG, "Success getting records!!!");
                 if (response.isSuccess()) {
+                    final ArrayList<Record> records = new ArrayList<>();
+                    for (Record record : response.body()) {
+                        records.add(record);
+                    }
 
+                    RecordsAdapter recordsAdapter = new RecordsAdapter(getContext(), records);
+                    listView.setAdapter(recordsAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String recordId = String.valueOf(records.get(position));
+                            Intent intent = new Intent(getContext(), RecordDetailActivity.class);
+                            intent.putExtra(RECORD_ID, recordId);
+                            intent.putExtra(PERSON_ID, userId);
+                            startActivity(intent);
+                        }
+                    });
                 } else {
                     // error response, no access to resource?
+                    Log.w(TAG, "response is not success!");
                 }
             }
 

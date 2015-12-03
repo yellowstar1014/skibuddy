@@ -1,25 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/start_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_time"
+        android:textColor="@android:color/black"/>
+
+    <TextView
         android:id="@+id/start_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/start_time_label"
+        android:paddingLeft="@dimen/padding_small"/>
+
+    <TextView
+        android:id="@+id/end_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_time"
+        android:layout_below="@id/start_time_label"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/end_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/start_time"
-        android:layout_alignParentRight="true"/>
+        android:layout_below="@id/start_time"
+        android:layout_toRightOf="@id/end_time_label"
+        android:paddingLeft="@dimen/padding_small"/>
+
+    <TextView
+        android:id="@+id/distance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/distance"
+        android:layout_below="@id/end_time_label"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/start_time"/>
+        android:layout_below="@id/end_time"
+        android:layout_toRightOf="@id/distance_label"
+        android:paddingLeft="@dimen/padding_small"/>
 
 </RelativeLayout>

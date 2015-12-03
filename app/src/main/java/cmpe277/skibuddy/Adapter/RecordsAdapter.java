@@ -39,7 +39,7 @@ public class RecordsAdapter extends ArrayAdapter<Record> {
 
         startTime.setText(convertEpochTimeToDate(record.getStartTime()));
         endTime.setText(convertEpochTimeToDate(record.getEndTime()));
-        distance.setText((int) record.getDistance());
+        distance.setText(String.valueOf(record.getDistance()) + " m");
 
         return convertView;
     }
