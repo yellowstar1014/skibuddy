@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
@@ -21,6 +22,12 @@ import org.apache.http.client.methods.HttpGet;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+
+import cmpe277.skibuddy.model.Record;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 import static cmpe277.skibuddy.Constants.PERSON_EMAIL;
 import static cmpe277.skibuddy.Constants.PERSON_NAME;
@@ -35,6 +42,7 @@ public class ProfileFragment extends Fragment {
     private TextView name;
     private TextView email;
     private ImageView photo;
+    private ListView listView;
 
     private String personName;
     private String personEmail;
@@ -51,6 +59,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ServiceFactory.init(getString(R.string.server_url));
 
         Intent intent = getActivity().getIntent();
         personName = intent.getStringExtra(PERSON_NAME);
@@ -65,6 +74,7 @@ public class ProfileFragment extends Fragment {
         name = (TextView) v.findViewById(R.id.name);
         email = (TextView) v.findViewById(R.id.email);
         photo = (ImageView) v.findViewById(R.id.photo);
+        listView = (ListView) v.findViewById(R.id.list_view);
 
         name.setText(personName);
         email.setText(personEmail);
@@ -78,12 +88,38 @@ public class ProfileFragment extends Fragment {
             download(personPhotoUrl, photo);
         }
 
+        loadRecordData();
+
         return v;
     }
 
     public void download(String url, ImageView imageView) {
         BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
         task.execute(url);
+    }
+
+    private void loadRecordData() {
+        // TODO: hard code user id for testing only, should get it from server
+        int userId = 1;
+
+        ServerAPI serverAPI = ServiceFactory.createService(ServerAPI.class);
+        Call<Record[]> call = serverAPI.getRecord(userId);
+        call.enqueue(new Callback<Record[]>() {
+            @Override
+            public void onResponse(Response<Record[]> response, Retrofit retrofit) {
+                Log.w(TAG, "Success getting records!!!");
+                if (response.isSuccess()) {
+
+                } else {
+                    // error response, no access to resource?
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(TAG, "error:" + t.getMessage());
+            }
+        });
     }
 
 

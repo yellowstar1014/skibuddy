@@ -18,4 +18,8 @@ public interface ServerAPI {
 
     @POST("/users/{uid}/records")
     Call<Record> addRecord(@Path("uid") int uid, @Body Record record);
+
+    @GET("/users/{uid}/records")
+    Call<Record[]> getRecord(@Path("uid") int uid);
+
 }
