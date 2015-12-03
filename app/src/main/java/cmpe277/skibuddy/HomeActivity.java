@@ -2,6 +2,7 @@ package cmpe277.skibuddy;
 
 import android.Manifest;
 import android.app.Service;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
@@ -89,7 +90,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onFailure(Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Save Path Failure!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Save Path Success!", Toast.LENGTH_SHORT).show();
+                        finish();
                         //Log.d("Error", t.getMessage());
                     }
                 });
