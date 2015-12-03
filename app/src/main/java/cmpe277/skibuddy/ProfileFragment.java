@@ -86,13 +86,13 @@ public class ProfileFragment extends Fragment {
         email.setText(personEmail);
 
         // If the person doesn't have google profile image, we give him a default avatar
-//        if (personPhotoUrl.equals("null")) {
-//            photo.setBackgroundResource(R.drawable.avatar);
-//            photo.getLayoutParams().height = 350;
-//            photo.getLayoutParams().width = 350;
-//        } else {
-//            download(personPhotoUrl, photo);
-//        }
+        if (personPhotoUrl.equals("null")) {
+            photo.setBackgroundResource(R.drawable.avatar);
+            photo.getLayoutParams().height = 350;
+            photo.getLayoutParams().width = 350;
+        } else {
+            download(personPhotoUrl, photo);
+        }
 
         loadRecordData();
 

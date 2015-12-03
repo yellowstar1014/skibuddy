@@ -10,5 +10,7 @@ public class Constants {
     public static final String PERSON_ID = "PERSON_ID";
     public static final String PERSON_PHOTO_URL = "PERSON_PHOTO_URL";
     public static final String RECORD_ID = "RECORD_ID";
+    public static final String EVENT_ID = "EVENT_ID";
+    public static final String EVENT_NAME = "EVENT_NAME";
 
 }

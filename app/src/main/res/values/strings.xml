@@ -50,4 +50,9 @@
     <string name="distance">Distance:</string>
     <string name="title_activity_maps">Map</string>
 
+    <!-- Event screen -->
+    <string name="owned_event">Owned Events</string>
+    <string name="accepted_event">Accepted Events</string>
+    <string name="waiting_event">Waiting Events</string>
+
 </resources>
