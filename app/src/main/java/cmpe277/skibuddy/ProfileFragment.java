@@ -199,6 +199,8 @@ public class ProfileFragment extends Fragment {
                 ImageView imageView = imageViewReference.get();
                 if (imageView != null) {
                     imageView.setImageBitmap(bitmap);
+                    imageView.getLayoutParams().height = 450;
+                    imageView.getLayoutParams().width = 450;
                 }
             }
         }
