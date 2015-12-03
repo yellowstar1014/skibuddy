@@ -5,6 +5,7 @@ import java.util.List;
 import cmpe277.skibuddy.model.Identity;
 import cmpe277.skibuddy.model.Record;
 import cmpe277.skibuddy.model.User;
+import cmpe277.skibuddy.model.UserEventWithStatus;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -23,5 +24,8 @@ public interface ServerAPI {
 
     @GET("/users/{uid}/records")
     Call<List<Record>> getRecord(@Path("uid") int uid);
+
+    @GET("/users/{uid}/events")
+    Call<UserEventWithStatus[]> getEvent(@Path("uid") int uid);
 
 }

@@ -45,6 +45,7 @@
 
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateEventActivity" />
+        <activity android:name=".EventDetailActivity"></activity>
         <activity android:name=".RecordDetailActivity" />
         <activity
             android:name=".HomeActivity"
