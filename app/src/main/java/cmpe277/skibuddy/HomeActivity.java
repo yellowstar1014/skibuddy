@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.SharedPreferences;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,6 +47,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     private Button mStopBtn;
     private UserSessionManager sessionManager;
     private Record record;
+    private TextView mdistTxv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        mdistTxv = (TextView)findViewById(R.id.txv_distance);
         mStartBtn = (Button)findViewById(R.id.btn_start);
         mStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +136,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                     last.setLatitude(pre.get(pre.size() - 1).latitude);
                     last.setLongitude(pre.get(pre.size() - 1).longitude);
                     record.setDistance(record.getDistance() + curLoc.distanceTo(last));
+                    NumberFormat formatter = new DecimalFormat("#0.00");
+                    mdistTxv.setText("" + formatter.format(record.getDistance()) + " m");
                 }
                 pre.add(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()));
                 mTrace.setPoints(pre);
