@@ -55,7 +55,10 @@ public class EventDetailActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
+                User un = new User();
+                un.setName(email.getText().toString());
+                un.setEmail("");
+                membersAdapter.add(un);
 
             }
 
