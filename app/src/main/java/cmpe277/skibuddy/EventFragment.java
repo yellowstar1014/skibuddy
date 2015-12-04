@@ -17,6 +17,8 @@ import cmpe277.skibuddy.model.Event;
 import cmpe277.skibuddy.model.UserEventWithStatus;
 
 import static cmpe277.skibuddy.Constants.EVENT_ID;
+import static cmpe277.skibuddy.Constants.EVENT_START;
+import static cmpe277.skibuddy.Constants.EVENT_END;
 import static cmpe277.skibuddy.Constants.EVENT_NAME;
 
 
@@ -72,24 +74,33 @@ public class EventFragment extends Fragment{
         UserEventWithStatus userEventWithStatus1 = new UserEventWithStatus();
         Event event1 = new Event();
         event1.setTitle("Winter kickout!");
+        event1.setStartTime(Long.parseLong("11112015"));
+        event1.setEndTime(Long.parseLong("12222015"));
         userEventWithStatus1.setEvent(event1);
         userEventWithStatus1.setStatus(0);
 
         UserEventWithStatus userEventWithStatus2 = new UserEventWithStatus();
         Event event2 = new Event();
         event2.setTitle("Let's go skiing!");
+        event2.setStartTime(Long.parseLong("10232015"));
+        event2.setEndTime(Long.parseLong("12092015"));
         userEventWithStatus2.setEvent(event2);
         userEventWithStatus2.setStatus(1);
 
         UserEventWithStatus userEventWithStatus3 = new UserEventWithStatus();
         Event event3 = new Event();
         event3.setTitle("WoooooooW!!");
+        event3.setStartTime(Long.parseLong("01042016"));
+        event3.setEndTime(Long.parseLong("02032016"));
         userEventWithStatus3.setEvent(event3);
         userEventWithStatus3.setStatus(2);
+
 
         UserEventWithStatus userEventWithStatus4 = new UserEventWithStatus();
         Event event4 = new Event();
         event4.setTitle("Kirkwood");
+        event4.setStartTime(Long.parseLong("02122016"));
+        event4.setEndTime(Long.parseLong("03212016"));
         userEventWithStatus4.setEvent(event4);
         userEventWithStatus4.setStatus(2);
 
@@ -146,7 +157,11 @@ public class EventFragment extends Fragment{
     private void startEventDetailActivity(ArrayList<UserEventWithStatus> list, int position) {
         String eventId = String.valueOf(list.get(position).getEvent().getId());
         String eventName = list.get(position).getEvent().getTitle();
+        Long eventStart = list.get(position).getEvent().getStartTime();
+        Long eventEnd = list.get(position).getEvent().getEndTime();
         Intent intent = new Intent(getContext(), EventDetailActivity.class);
+        intent.putExtra(EVENT_START, String.valueOf(eventStart));
+        intent.putExtra(EVENT_END, String.valueOf(eventEnd));
         intent.putExtra(EVENT_ID, eventId);
         intent.putExtra(EVENT_NAME, eventName);
         startActivity(intent);

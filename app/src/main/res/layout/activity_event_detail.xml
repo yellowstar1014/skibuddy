@@ -39,22 +39,59 @@
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Let's plan snowboarding trip to Whistler with Aiza, Angeli, Neil and Alan!"
-                android:textSize="20dp" />
+                android:text="Let's plan snowboarding trip to Whistler with Aiza, Angeli, Neil and Alan!" />
+
+            <TextView
+                android:id="@+id/start1"
+                android:text="Start Date:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/start2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/end1"
+                android:text="End Date:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/end2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <!--Invite button & invite ppl area-->
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Invite"
-        android:id="@+id/invite"
-        android:background="#106beb"
-        android:textColor="#ffffff" />
+        android:orientation="horizontal" >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_add"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="Enter email here to invite people."/>
+
+    </LinearLayout>
 
 
-    <!--TODO: Add memeber list here-->
+    <ListView
+        android:id="@+id/members"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
 
 </LinearLayout>

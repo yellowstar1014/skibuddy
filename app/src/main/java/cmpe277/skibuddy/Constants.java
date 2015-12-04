@@ -12,5 +12,7 @@ public class Constants {
     public static final String RECORD_ID = "RECORD_ID";
     public static final String EVENT_ID = "EVENT_ID";
     public static final String EVENT_NAME = "EVENT_NAME";
+    public static final String EVENT_START = "EVENT_START";
+    public static final String EVENT_END = "EVENT_END";
 
 }
