@@ -94,7 +94,7 @@ public class EventDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String recordId = String.valueOf(users.get(position));
-                Intent intent = new Intent(getApplicationContext(), RecordDetailActivity.class);
+                Intent intent = new Intent(getApplicationContext(), OtherUserProfileActivity.class);
 //                intent.putExtra(PERSON_ID, users.get(position).getId());
                 intent.putExtra(PERSON_EMAIL, users.get(position).getEmail());
                 intent.putExtra(PERSON_NAME, users.get(position).getName());
